@@ -1,0 +1,36 @@
+{
+  "name": "@rill/webpack-router",
+  "description": "Rill middleware for automatic routing using Webpack require contexts.",
+  "version": "1.0.0",
+  "author": "Dylan Piercey <pierceydylan@gmail.com>",
+  "bugs": "https://github.com/rill-js/webpack-router/issues",
+  "dependencies": {
+    "@rill/chain": "^1.0.3",
+    "@rill/http": "^3.0.1",
+    "rill": "^3.0.1"
+  },
+  "devDependencies": {
+    "rill": "^2.5.1",
+    "snazzy": "^6.0.0",
+    "standard": "^8.6.0"
+  },
+  "homepage": "https://github.com/rill-js/webpack-router",
+  "keywords": [
+    "dev",
+    "hot",
+    "isomorphic",
+    "reload",
+    "rill",
+    "universal",
+    "webpack"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rill-js/webpack-router"
+  },
+  "scripts": {
+    "test": "standard --verbose | snazzy"
+  }
+}
