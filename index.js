@@ -6,7 +6,7 @@ module.exports = function routeDirectorySetup (context, options) {
 
   context.keys().forEach(function (file) {
     // Convert the filename to a path.
-    var path = file.slice(1).replace(/(\/index)?\.js$/, '')
+    var path = file.slice(1).replace(/(\/index)*?\.js$/, '')
     // Add the routes to the routing table.
     routes[path] = context(file)
   })
