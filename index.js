@@ -8,7 +8,7 @@ module.exports = function routeDirectorySetup (context, options) {
     // Convert the filename to a path.
     var path = file.slice(1).replace(/(\/index)*?\.js$/, '')
     // Add the routes to the routing table.
-    routes[path] = context(file)
+    try { routes[path] = context(file) } catch (_) {}
   })
 
   // Return a rill compatible middleware that hooks into the routing table.
