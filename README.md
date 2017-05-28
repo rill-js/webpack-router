@@ -56,13 +56,6 @@ exports.get = ({ res }) => {
 exports.post = ({ res }) => {
   // Handle other methods as well.
 }
-
-// Optionally override the path (defaults to file name without .js)
-// index.js is also shortened to '/'
-exports.path = '/test'
-
-// Even supports multiple paths (this would override the above)
-exports.paths = ['/test1', '/test2']
 ```
 
 ---

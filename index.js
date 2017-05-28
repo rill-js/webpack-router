@@ -1,43 +1,21 @@
-var rill = require('rill')
-var chain = require('@rill/chain')
-var METHODS = require('@rill/http').METHODS.map(toLower)
-var endsWithIndex = /index\.js$/
-var endsWithJS = /\.js$/
-var temp = []
-
 /**
  * Given a webpack require context this will create a middleware that routes to every given file (omitting .js and index.js).
  */
-module.exports = function routeDirectory (context, options) {
-  var router = rill()
+module.exports = function routeDirectorySetup (context, options) {
+  var routes = Object.create(null)
+
   context.keys().forEach(function (file) {
-    // Load the module.
-    var module = context(file)
-
-    // Find the best path(s).
-    var paths = temp.concat(
-      module.paths ||
-      module.path ||
-      file.slice(1).replace(endsWithIndex, '').replace(endsWithJS, '')
-    )
-
-    // Attach the controllers at all provided paths.
-    var len = paths.length
-    for (var method in module) {
-      if (!module[method] || !~METHODS.indexOf(method)) continue
-      for (var i = 0; i < len; i++) {
-        router[method](paths[i], module[method])
-      }
-    }
+    // Convert the filename to a path.
+    var path = file.slice(1).replace(/(\/index)?\.js$/, '')
+    // Add the routes to the routing table.
+    routes[path] = context(file)
   })
 
-  // Compose the dynamic router into a valid rill middleware.
-  return chain(router.stack)
-}
-
-/**
- * Convert a string to lower case.
- */
-function toLower (str) {
-  return str.toLowerCase()
+  // Return a rill compatible middleware that hooks into the routing table.
+  return function routeDirectoryMiddleware (ctx, next) {
+    var methods = routes[ctx.req.matchPath]
+    var handler = methods && methods[ctx.req.method.toLowerCase()]
+    if (typeof handler !== 'function') return next()
+    return handler(ctx, next)
+  }
 }
